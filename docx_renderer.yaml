@@ -1,0 +1,190 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: DOCX Renderer
+meta:
+  id: wrk_7247a823e9194204bf8b303b4b778e1e
+  created: 1770520368734
+  modified: 1770520452192
+  description: ""
+collection:
+  - url: "{{ _.baseUrl }}/health"
+    name: Health check
+    meta:
+      id: req_809ed8254f5b41289a87f6a56b059fcd
+      created: 1770520380660
+      modified: 1770520380660
+      isPrivate: false
+      description: ""
+      sortKey: -1770520380660
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.baseUrl }}/verify-template"
+    name: Verify Template
+    meta:
+      id: req_56a3324b4b5148178b3ef7fee600fe47
+      created: 1770520380663
+      modified: 1770520380663
+      isPrivate: false
+      description: Extracts template tags and compares against provided variables.
+      sortKey: -1770520380663
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "templateUrl": "{{ _.templateUrl }}",
+          "variables": {
+            "clientName": "Acme Corp",
+            "invoiceNumber": "INV-2026-001"
+          },
+          "images": {}
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - name: Render
+    meta:
+      id: fld_ac139f6c4e4d4d4eb10d60f4dc1ba375
+      created: 1770520380659
+      modified: 1770520380659
+      sortKey: -1770520380659
+      description: ""
+    children:
+      - url: "{{ _.baseUrl }}/render"
+        name: Render → Upload
+        meta:
+          id: req_aca37f551c02400f99d03b031a099725
+          created: 1770520380661
+          modified: 1770520380661
+          isPrivate: false
+          description: Renders the template and uploads the PDF to outputUrl.
+          sortKey: -1770520380661
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "templateUrl": "{{ _.templateUrl }}",
+              "outputUrl": "{{ _.outputUrl }}",
+              "variables": {
+                "clientName": "Acme Corp",
+                "invoiceNumber": "INV-2026-001"
+              },
+              "images": {}
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/render"
+        name: Render → Download
+        meta:
+          id: req_292e8aa3484f4d1ba28384f0d66519e2
+          created: 1770520380662
+          modified: 1770520380662
+          isPrivate: false
+          description: Renders the template and returns the PDF directly (for debugging).
+          sortKey: -1770520380662
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "templateUrl": "{{ _.templateUrl }}",
+              "download": true,
+              "variables": {
+                "clientName": "Acme Corp",
+                "invoiceNumber": "INV-2026-001"
+              },
+              "images": {}
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/render"
+        name: Render → Upload + Download
+        meta:
+          id: req_b2692819d0ed49738c70623ea8958355
+          created: 1770520380663
+          modified: 1770520380663
+          isPrivate: false
+          description: Renders, uploads to outputUrl, AND returns the PDF.
+          sortKey: -1770520380663
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "templateUrl": "{{ _.templateUrl }}",
+              "outputUrl": "{{ _.outputUrl }}",
+              "download": true,
+              "variables": {
+                "clientName": "Acme Corp",
+                "invoiceNumber": "INV-2026-001"
+              },
+              "images": {}
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_4e35308c2321f5cd472e4392ddb49ecc6b12e4ed
+    created: 1770520368770
+    modified: 1770520368770
+environments:
+  name: Base Environment
+  meta:
+    id: env_4e35308c2321f5cd472e4392ddb49ecc6b12e4ed
+    created: 1770520368769
+    modified: 1770520368769
+    isPrivate: false
+  subEnvironments:
+    - name: Dev
+      meta:
+        id: env_abb587d21f894ced8043e697b8094b38
+        created: 1770520404555
+        modified: 1770520413342
+        isPrivate: false
+        sortKey: 1770520404555
+      data:
+        baseUrl: http://localhost:8080
